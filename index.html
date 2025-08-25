@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architectural Design Consultation Proposal</title>
+    <style>
+        /*
+        * CSS Variables for theming.
+        * We define a base set of variables for the light theme,
+        * and then override them within the .dark-theme class.
+        */
+        :root {
+            --bg-gradient-start: #f5f7fa;
+            --bg-gradient-end: #c3cfe2;
+            --main-bg: white;
+            --text-color: #111111;
+            --secondary-text-color: #444444;
+            --accent-blue: #3498db;
+            --accent-bg-soft: #f8f9fa;
+            --border-color: #ecf0f1;
+            --card-border: #e8eef5;
+            --header-bg-start: #2c3e50;
+            --header-bg-end: #34495e;
+            --header-text: white;
+            --button-bg: var(--accent-blue);
+            --button-hover-bg: #2980b9;
+        }
+
+        .dark-theme {
+            /* Using colors from the provided palette */
+            --bg-gradient-start: #0d1117;
+            --bg-gradient-end: #0d1117;
+            --main-bg: #010409;
+            --text-color: #f3f4f6; /* text-gray-100 */
+            --secondary-text-color: #d1d5db; /* text-gray-300 */
+            --accent-blue: #10b981; /* from-emerald-500 */
+            --accent-bg-soft: #161b22;
+            --border-color: #1f2937; /* border-gray-800 */
+            --card-border: #1f2937; /* border-gray-800 */
+            --header-bg-start: #010409;
+            --header-bg-end: #161b22;
+            --header-text: #f3f4f6;
+            --button-bg: var(--accent-blue);
+            --button-hover-bg: #0d9488; /* A darker teal-500 */
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .letter-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--main-bg);
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .letter-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            /* New accent gradient */
+            background: linear-gradient(90deg, #10b981, #06b6d4, #0d1117);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--header-bg-start) 0%, var(--header-bg-end) 100%);
+            color: var(--header-text);
+            padding: 35px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+        }
+        
+        .header .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+        
+        .header .subject {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 14px;
+            margin-top: 15px;
+            font-weight: 400;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .date-section {
+            text-align: right;
+            margin-bottom: 30px;
+            font-size: 14px;
+            color: var(--secondary-text-color);
+        }
+        
+        .greeting {
+            font-size: 16px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+        
+        .intro-paragraph {
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            color: var(--text-color);
+            background: var(--accent-bg-soft);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        
+        .section {
+            margin-bottom: 35px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 18px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-blue);
+        }
+        
+        .section-number {
+            background: var(--accent-blue);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .paragraph {
+            margin-bottom: 18px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--text-color);
+        }
+        
+        .plot-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--main-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .plot-table th,
+        .plot-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-color);
+        }
+
+        .dark-theme .plot-table th, .dark-theme .plot-table td {
+             border-color: #4a5568;
+        }
+        
+        .plot-table th {
+            background: var(--header-bg-start);
+            color: var(--header-text);
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .plot-table td:first-child {
+            font-weight: 600;
+            color: var(--text-color);
+            width: 40%;
+        }
+        
+        .plot-table tr:hover {
+            background: var(--accent-bg-soft);
+        }
+        
+        .vision-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+        
+        .vision-card h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .vision-card p {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.95;
+        }
+        
+        .floor-structure {
+            display: grid;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .floor-item {
+            background: var(--main-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 25px;
+            position: relative;
+        }
+        
+        .floor-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent-color);
+            border-radius: 2px 0 0 2px;
+        }
+        
+        .floor-item.basement::before { --accent-color: #e74c3c; }
+        .floor-item.first-floor::before { --accent-color: #f39c12; }
+        .floor-item.second-floor::before { --accent-color: #27ae60; }
+        
+        .floor-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .floor-emoji {
+            font-size: 24px;
+        }
+        
+        .floor-details {
+            font-size: 14px;
+            color: var(--secondary-text-color);
+            line-height: 1.6;
+        }
+        
+        .floor-details ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .floor-details li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .floor-details li::before {
+            content: '•';
+            color: var(--accent-blue);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .discussion-areas {
+            background: var(--accent-bg-soft);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 25px 0;
+        }
+        
+        .discussion-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .discussion-item {
+            background: var(--main-bg);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent-blue);
+        }
+        
+        .discussion-item h5 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+        
+        .discussion-item p {
+            font-size: 14px;
+            color: var(--secondary-text-color);
+            line-height: 1.6;
+        }
+        
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .deliverable-card {
+            background: var(--main-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 25px;
+        }
+        
+        .deliverable-card:hover {
+            border-color: var(--accent-blue);
+        }
+        
+        .deliverable-card h5 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .deliverable-card ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .deliverable-card li {
+            font-size: 14px;
+            color: var(--secondary-text-color);
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .deliverable-card li::before {
+            content: '✓';
+            color: #27ae60;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .requirements-highlight {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+        }
+        
+        .requirements-highlight h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .requirements-highlight p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+        
+        .next-steps-card {
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+        
+        .next-steps-card h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .next-steps-card p {
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .contact-section {
+            background: var(--header-bg-start);
+            color: var(--header-text);
+            padding: 35px;
+            margin-top: 30px;
+            border-radius: 10px;
+        }
+        
+        .contact-section h4 {
+            font-size: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+        
+        .contact-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+        }
+        
+        .contact-item strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #e5e7eb;
+        }
+        
+        .contact-item span {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        
+        .signature {
+            margin-top: 40px;
+            text-align: left;
+            border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+        }
+        
+        .signature p {
+            margin-bottom: 8px;
+        }
+        
+        .signature .name {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .signature .title {
+            font-size: 15px;
+            color: var(--secondary-text-color);
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            
+            .content {
+                padding: 25px;
+            }
+            
+            .header {
+                padding: 25px;
+            }
+            
+            .deliverables-grid,
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .plot-table {
+                font-size: 13px;
+            }
+            
+            .plot-table th,
+            .plot-table td {
+                padding: 10px;
+            }
+        }
+        
+        .print-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            background: var(--button-hover-bg);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .theme-toggle:hover {
+            background: var(--button-hover-bg);
+        }
+
+        /* Demo image styling */
+        .proposal-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            margin: 10px 0 25px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .letter-container {
+                box-shadow: none;
+                border-radius: 0;
+            }
+            
+            .print-button, .theme-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button id="theme-toggle" class="theme-toggle">
+        <span id="theme-icon">🌙</span>
+    </button>
+    <div class="letter-container">
+        <div class="header">
+            <h1>Architectural Design Consultation</h1>
+            <div class="subject">
+                <strong>Subject:</strong> Proposal for Architectural Design Services for a Flood-Resistant Three-Story Residence
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="date-section">
+                <strong>Date:</strong> August 24, 2025
+            </div>
+            
+            <div class="greeting">
+                <strong>Dear Architect,</strong>
+            </div>
+            
+            <div class="paragraph">
+                I hope this letter finds you well. I am Amit Roy, a Gen AI Engineer based in Bengaluru, writing to seek your professional expertise for designing my residential house in my native village.
+            </div>
+            
+            <!-- <img src="vaikuntha.png" alt="Demo architectural concept illustration" class="proposal-image" /> -->
+            
+            <div class="section">
+                <h3 class="section-title" id="section-1">
+                    <div class="section-number">1</div>
+                    PROJECT OVERVIEW
+                </h3>
+                <div class="paragraph">
+                    I am planning to construct a 3-story residence in Paschim Medinipur, West Bengal and would greatly appreciate your guidance on both architectural design and structural planning.
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title" id="section-2">
+                    <div class="section-number">2</div>
+                    PLOT DETAILS & SITE CHALLENGES
+                </h3>
+                <div class="paragraph">
+                    The plot has some specific environmental and topographical challenges that will require careful design consideration.
+                </div>
+                <table class="plot-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Plot Dimensions</td>
+                            <td>32 feet (Width) * 60 feet (Length)</td>
+                        </tr>
+                        <tr>
+                            <td>Total Plot Area</td>
+                            <td>1,920 sq. ft.</td>
+                        </tr>
+                        <tr>
+                            <td>Construction Target</td>
+                            <td>900 - 1000 sq. ft. per floor</td>
+                        </tr>
+                        <tr>
+                            <td>Road Access</td>
+                            <td>The plot is adjacent to a road</td>
+                        </tr>
+                        <tr>
+                            <td>Elevation</td>
+                            <td>The plot is approximately <strong>6 feet below the road level</strong></td>
+                        </tr>
+                        <tr>
+                            <td>Water Logging</td>
+                            <td>Seasonal waterlogging with water levels reaching up to <strong>3 feet</strong> for nearly 6 months of the year</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title" id="section-3">
+                    <div class="section-number">3</div>
+                    PROPOSED STRUCTURE
+                </h3>
+                
+                <h4 style="font-size: 18px; margin: 25px 0 15px 0; color: #2c3e50;">Floor-wise Structure Concept</h4>
+                <div class="floor-structure">
+                    <div class="floor-item basement">
+                        <div class="floor-title">
+                            <span class="floor-emoji">🚗</span>
+                            Raised Ground Floor (Stilt Level for Parking/Storage)
+                        </div>
+                        <div class="floor-details">
+                            <ul>
+                                <li><strong>Purpose:</strong> Exclusively for car parking and general storage. No rooms or internal walls required to maintain an open, usable space</li>
+                                <li><strong>Elevation:</strong> Starting approximately 5 feet <em>below</em> the road level and extending up to 2-3 feet <em>above</em> the road level</li>
+                                <li><strong>Total Height:</strong> Clear height of 7-8 feet for the stilt level</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="floor-item first-floor">
+                        <div class="floor-title">
+                            <span class="floor-emoji">🏠</span>
+                            First Floor (Residential)
+                        </div>
+                        <div class="floor-details">
+                            <ul>
+                                <li><strong>Purpose:</strong> Main residential floor</li>
+                                <li><strong>Elevation:</strong> Floor level starting 2-3 feet <em>above</em> the road, sitting directly on top of the stilt structure</li>
+                                <li><strong>Layout:</strong> Part of the 4-room residential requirement</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="floor-item second-floor">
+                        <div class="floor-title">
+                            <span class="floor-emoji">🏠</span>
+                            Second Floor (Residential)
+                        </div>
+                        <div class="floor-details">
+                            <ul>
+                                <li><strong>Purpose:</strong> Additional residential space</li>
+                                <li><strong>Layout:</strong> Completion of the 4-room total requirement</li>
+                                <li><strong>Flexibility:</strong> Open to discussion for optimal space utilization</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <h4 style="font-size: 18px; margin: 25px 0 15px 0; color: #2c3e50;">Key Feature : Dual Access</h4>
+                <div class="paragraph">
+                    <li>
+                        On one side of the house, a vehicle slope
+                        <strong>5′ below</strong> road level connects the <strong>basement</strong> directly to the road.
+                    </li>
+                    <li>
+                        On another side, pedestrian stairs
+                        <strong>2′ above</strong> road level connect the <strong>first floor</strong> directly to the road.
+                    </li>
+                    <p>
+                    <strong>Result: </strong> both the <strong>basement (via the down-slope)</strong> and the
+                    <strong>first floor (via the stairs)</strong> have direct road access.
+                    </p>
+                </div>
+                <h4 style="font-size: 18px; margin: 25px 0 15px 0; color: #2c3e50;">Internal Layout Requirements</h4>
+                <div class="paragraph">
+                    <li>
+                    Across the <strong>First and Second floors</strong>, I require a total of <strong>4 rooms with cross ventilation</strong>. The exact distribution (e.g., 3 on the first floor, 1 on the second, or 2 on each) is open for discussion based on the best layout. Other essential spaces would include a kitchen, living area, bathrooms, and a puja space, which we can plan together.
+                    </li>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title" id="section-4">
+                    <div class="section-number">4</div>
+                    AREAS FOR DISCUSSION & YOUR EXPERTISE
+                </h3>
+                <div class="paragraph">
+                    While I have a basic concept, I want to heavily leverage your professional experience. I am very open to new ideas and would love to discuss the following points to arrive at the best possible design:
+                </div>
+                <div class="discussion-areas">
+                    <div class="discussion-list">
+                        <div class="discussion-item">
+                            <h5>🏗️ Structural Feasibility</h5>
+                            <p>Your expert opinion on the foundation and stilt-floor design, considering the soil and waterlogging conditions.</p>
+                        </div>
+                        <div class="discussion-item">
+                            <h5>📐 Internal Space Planning</h5>
+                            <p>How to best optimize the flow and space within the ~1000 sq. ft. footprint of each residential floor.</p>
+                        </div>
+                        <div class="discussion-item">
+                            <h5>🏠 Top Floor & Terrace Design</h5>
+                            <p>What would you recommend for the top-most level? A full second-floor construction, or a partial construction with a beautiful open terrace?</p>
+                        </div>
+                        <div class="discussion-item">
+                            <h5>🎨 External Elevation & Aesthetics</h5>
+                            <p>I would like a minimalst modern external design. I am counting on your creativity to design a visually striking facade.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title" id="section-5">
+                    <div class="section-number">5</div>
+                    KEY DELIVERABLES REQUIRED
+                </h3>
+                <div class="paragraph">
+                    In addition to the creative design process, I would require the following tangible deliverables to ensure the project is executed smoothly and within budget:
+                </div>
+                <div class="deliverables-grid">
+                    <div class="deliverable-card">
+                        <h5>📋 Architectural Drawings</h5>
+                        <ul>
+                            <li>Comprehensive 2D floor plans</li>
+                            <li>Detailed elevations</li>
+                            <li>Section drawings</li>
+                        </ul>
+                    </div>
+                    <div class="deliverable-card">
+                        <h5>🖼️ 3D Visualizations</h5>
+                        <ul>
+                            <li>Photorealistic 3D renders of exterior</li>
+                            <li>Key interior space visualizations</li>
+                            <li>Multiple angle perspectives</li>
+                        </ul>
+                    </div>
+                    <div class="deliverable-card">
+                        <h5>💰 Cost Estimation & BOQ</h5>
+                        <ul>
+                            <li>Cost per floor/portion breakdown</li>
+                            <li>Itemized material costs</li>
+                            <li>Estimated labor costs</li>
+                            <li>Total project cost estimate</li>
+                        </ul>
+                    </div>
+                    <div class="deliverable-card">
+                        <h5>🎨 Material Specifications</h5>
+                        <ul>
+                            <li>Detailed material lists</li>
+                            <li>Specific color codes</li>
+                            <li>Finish specifications</li>
+                            <li>Brand recommendations</li>
+                        </ul>
+                    </div>
+                    <div class="deliverable-card">
+                        <h5>⚡ Technical Drawings</h5>
+                        <ul>
+                            <li>Structural drawings coordination</li>
+                            <li>Electrical layout plans</li>
+                            <li>Plumbing system drawings</li>
+                            <li>Service integration details</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="section">
+                <h3 class="section-title" id="section-6">
+                    <div class="section-number">6</div>
+                    NEXT STEPS
+                </h3>
+                <div class="next-steps-card">
+                    <h4>🤝 Let's Collaborate</h4>
+                    <p>I would be grateful for the opportunity to discuss this project with you further. Could you please let me know your availability for an initial consultation (virtual or in-person if you are in bengaluru)?</p>
+                    <p>I would also appreciate it if you could share an overview of your design process, portfolio of similar projects, and your fee structure for the scope of work outlined above.</p>
+                </div>
+                <div class="paragraph">
+                    Thank you for your time and consideration. I am very excited about the possibility of working with you to build my dream home.
+                </div>
+            </div>
+            
+            <div class="signature">
+                <p><strong>Best regards,</strong></p>
+                <p class="name">Amit Roy</p>
+            </div>
+        </div>
+        
+        <div class="contact-section">
+            <h4>📞 Contact Information</h4>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <strong>Phone</strong>
+                    <span>8900067947</span>
+                    <br>
+                    <span>8250799755</span>
+                </div>
+                <div class="contact-item">
+                    <strong>Email</strong>
+                    <span>amitroy2930@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <strong>Current Location</strong>
+                    <span>Brookefield, Bengaluru, Karnataka, 560037</span>
+                </div>
+                <div class="contact-item">
+                    <strong>Project Site</strong>
+                    <span>Natuk, Ghatal, Paschim Medinipur, West Bengal, 721232</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button class="print-button" onclick="window.print()">
+        📄 Print Proposal
+    </button>
+
+    <script>
+        // Get references to the theme button and the body
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const body = document.body;
+
+        // Check for saved theme preference on page load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+            if (savedTheme === 'dark-theme') {
+                themeIcon.textContent = '☀️';
+            }
+        }
+
+        // Add a click listener to the theme button
+        themeToggle.addEventListener('click', () => {
+            // Check if the body currently has the dark theme class
+            if (body.classList.contains('dark-theme')) {
+                // If it does, remove it to switch to light theme
+                body.classList.remove('dark-theme');
+                themeIcon.textContent = '🌙';
+                localStorage.setItem('theme', 'light-theme');
+            } else {
+                // If it doesn't, add it to switch to dark theme
+                body.classList.add('dark-theme');
+                themeIcon.textContent = '☀️';
+                localStorage.setItem('theme', 'dark-theme');
+            }
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
