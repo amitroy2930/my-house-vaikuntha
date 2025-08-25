@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Architectural Design Consultation Proposal</title>
+    <title data-translate="page-title">Architectural Design Consultation Proposal</title>
     <style>
         /*
         * CSS Variables for theming.
@@ -46,6 +46,9 @@
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Kannada:wght@300;400;500;600;700&display=swap');
         
         * {
             margin: 0;
@@ -62,6 +65,19 @@
             background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             padding: 40px 20px;
+        }
+
+        /* Language-specific fonts */
+        body.lang-bn {
+            font-family: 'Noto Sans Bengali', 'Inter', sans-serif;
+        }
+        
+        body.lang-hi {
+            font-family: 'Noto Sans Devanagari', 'Inter', sans-serif;
+        }
+        
+        body.lang-kn {
+            font-family: 'Noto Sans Kannada', 'Inter', sans-serif;
         }
         
         .letter-container {
@@ -497,7 +513,93 @@
             font-size: 15px;
             color: var(--secondary-text-color);
         }
+
+        /* Language and Theme Toggle Buttons */
+        .top-controls {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .theme-toggle, .language-toggle {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .language-toggle {
+            width: auto;
+            padding: 10px 15px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: 25px;
+            min-width: 50px;
+        }
         
+        .theme-toggle:hover, .language-toggle:hover {
+            background: var(--button-hover-bg);
+        }
+
+        /* New language menu with 4 options */
+        .language-menu {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--accent-bg-soft);
+            padding: 4px;
+            border-radius: 999px;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.15);
+            border: 1px solid var(--card-border);
+        }
+        .lang-option {
+            background: transparent;
+            color: var(--text-color);
+            border: none;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 999px;
+            cursor: pointer;
+            line-height: 1;
+        }
+        .lang-option.active {
+            background: var(--button-bg);
+            color: white;
+        }
+
+        .print-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            background: var(--button-hover-bg);
+        }
+
         @media (max-width: 768px) {
             body {
                 padding: 20px 10px;
@@ -524,61 +626,17 @@
             .plot-table td {
                 padding: 10px;
             }
-        }
-        
-        .print-button {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--button-bg);
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-            z-index: 1000;
-        }
-        
-        .print-button:hover {
-            background: var(--button-hover-bg);
-        }
-        
-        .theme-toggle {
-            position: fixed;
-            top: 30px;
-            right: 30px;
-            background: var(--button-bg);
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 20px;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .theme-toggle:hover {
-            background: var(--button-hover-bg);
-        }
 
-        /* Demo image styling */
-        .proposal-image {
-            width: 100%;
-            height: auto;
-            display: block;
-            border-radius: 10px;
-            border: 1px solid var(--card-border);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            margin: 10px 0 25px;
+            .top-controls {
+                top: 20px;
+                right: 20px;
+                flex-direction: column;
+            }
+
+            .print-button {
+                bottom: 20px;
+                right: 20px;
+            }
         }
 
         @media print {
@@ -592,88 +650,95 @@
                 border-radius: 0;
             }
             
-            .print-button, .theme-toggle {
+            .print-button, .top-controls {
                 display: none;
             }
         }
     </style>
 </head>
 <body>
-    <button id="theme-toggle" class="theme-toggle">
-        <span id="theme-icon">🌙</span>
-    </button>
+    <div class="top-controls">
+        <div id="language-menu" class="language-menu" aria-label="Language picker">
+            <button type="button" class="lang-option" data-lang="en">EN</button>
+            <button type="button" class="lang-option" data-lang="bn">বাং</button>
+            <button type="button" class="lang-option" data-lang="hi">हिं</button>
+            <button type="button" class="lang-option" data-lang="kn">ಕನ್</button>
+        </div>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme">
+            <span id="theme-icon">🌙</span>
+        </button>
+    </div>
+
     <div class="letter-container">
         <div class="header">
-            <h1>Architectural Design Consultation</h1>
+            <h1 data-translate="header-title">Architectural Design Consultation</h1>
             <div class="subject">
-                <strong>Subject:</strong> Proposal for Architectural Design Services for a Flood-Resistant Three-Story Residence
+                <strong data-translate="subject-label">Subject:</strong> <span data-translate="subject-text">Proposal for Architectural Design Services for a Flood-Resistant Three-Story Residence</span>
             </div>
         </div>
         
         <div class="content">
             <div class="date-section">
-                <strong>Date:</strong> August 24, 2025
+                <strong data-translate="date-label">Date:</strong> <span data-translate="date-value">August 24, 2025</span>
             </div>
             
             <div class="greeting">
-                <strong>Dear Architect,</strong>
+                <strong data-translate="greeting">Dear Architect,</strong>
             </div>
             
             <div class="paragraph">
-                I hope this letter finds you well. I am Amit Roy, a Gen AI Engineer based in Bengaluru, writing to seek your professional expertise for designing my residential house in my native village.
+                <span data-translate="intro-text">I hope this letter finds you well. I am Amit Roy, a Gen AI Engineer based in Bengaluru, writing to seek your professional expertise for designing my residential house in my native village.</span>
             </div>
-            
-            <!-- <img src="vaikuntha.png" alt="Demo architectural concept illustration" class="proposal-image" /> -->
             
             <div class="section">
                 <h3 class="section-title" id="section-1">
                     <div class="section-number">1</div>
-                    PROJECT OVERVIEW
+                    <span data-translate="section-1-title">PROJECT OVERVIEW</span>
                 </h3>
                 <div class="paragraph">
-                    I am planning to construct a 3-story residence in Paschim Medinipur, West Bengal and would greatly appreciate your guidance on both architectural design and structural planning.
+                    <span data-translate="section-1-content">I am planning to construct a 3-story residence in Paschim Medinipur, West Bengal and would greatly appreciate your guidance on both architectural design and structural planning.</span>
                 </div>
             </div>
             
             <div class="section">
                 <h3 class="section-title" id="section-2">
                     <div class="section-number">2</div>
-                    PLOT DETAILS & SITE CHALLENGES
+                    <span data-translate="section-2-title">PLOT DETAILS & SITE CHALLENGES</span>
                 </h3>
                 <div class="paragraph">
-                    The plot has some specific environmental and topographical challenges that will require careful design consideration.
+                    <span data-translate="section-2-intro">The plot has some specific environmental and topographical challenges that will require careful design consideration.</span>
                 </div>
                 <table class="plot-table">
                     <thead>
                         <tr>
-                            <th>Parameter</th>
-                            <th>Details</th>
+                            <th data-translate="table-parameter">Parameter</th>
+                            <th data-translate="table-details">Details</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Plot Dimensions</td>
-                            <td>32 feet (Width) * 60 feet (Length)</td>
+                            <td data-translate="plot-dimensions">Plot Dimensions</td>
+                            <td data-translate="plot-dimensions-value">32 feet (Width) * 60 feet (Length)</td>
                         </tr>
                         <tr>
-                            <td>Total Plot Area</td>
-                            <td>1,920 sq. ft.</td>
+                            <td data-translate="plot-area">Total Plot Area</td>
+                            <td data-translate="plot-area-value">1,920 sq. ft.</td>
                         </tr>
                         <tr>
-                            <td>Construction Target</td>
-                            <td>900 - 1000 sq. ft. per floor</td>
+                            <td data-translate="construction-target">Construction Target</td>
+                            <td data-translate="construction-target-value">900 - 1000 sq. ft. per floor</td>
                         </tr>
                         <tr>
-                            <td>Road Access</td>
-                            <td>The plot is adjacent to a road</td>
+                            <td data-translate="road-access">Road Access</td>
+                            <td data-translate="road-access-value">The plot is adjacent to a road</td>
                         </tr>
                         <tr>
-                            <td>Elevation</td>
-                            <td>The plot is approximately <strong>6 feet below the road level</strong></td>
+                            <td data-translate="elevation">Elevation</td>
+                            <td data-translate="elevation-value">The plot is approximately <strong>6 feet below the road level</strong></td>
                         </tr>
                         <tr>
-                            <td>Water Logging</td>
-                            <td>Seasonal waterlogging with water levels reaching up to <strong>3 feet</strong> for nearly 6 months of the year</td>
+                            <td data-translate="water-logging">Water Logging</td>
+                            <td data-translate="water-logging-value">Seasonal waterlogging with water levels reaching up to <strong>3 feet</strong> for nearly 6 months of the year</td>
                         </tr>
                     </tbody>
                 </table>
@@ -682,21 +747,21 @@
             <div class="section">
                 <h3 class="section-title" id="section-3">
                     <div class="section-number">3</div>
-                    PROPOSED STRUCTURE
+                    <span data-translate="section-3-title">PROPOSED STRUCTURE</span>
                 </h3>
                 
-                <h4 style="font-size: 18px; margin: 25px 0 15px 0; color: #2c3e50;">Floor-wise Structure Concept</h4>
+                <h4 style="font-size: 18px; margin: 25px 0 15px 0; color: #2c3e50;" data-translate="floor-structure-title">Floor-wise Structure Concept</h4>
                 <div class="floor-structure">
                     <div class="floor-item basement">
                         <div class="floor-title">
                             <span class="floor-emoji">🚗</span>
-                            Raised Ground Floor (Stilt Level for Parking/Storage)
+                            <span data-translate="basement-title">Raised Ground Floor (Stilt Level for Parking/Storage)</span>
                         </div>
                         <div class="floor-details">
                             <ul>
-                                <li><strong>Purpose:</strong> Exclusively for car parking and general storage. No rooms or internal walls required to maintain an open, usable space</li>
-                                <li><strong>Elevation:</strong> Starting approximately 5 feet <em>below</em> the road level and extending up to 2-3 feet <em>above</em> the road level</li>
-                                <li><strong>Total Height:</strong> Clear height of 7-8 feet for the stilt level</li>
+                                <li><strong data-translate="basement-purpose-label">Purpose:</strong> <span data-translate="basement-purpose-text">Exclusively for car parking and general storage. No rooms or internal walls required to maintain an open, usable space</span></li>
+                                <li><strong data-translate="basement-elevation-label">Elevation:</strong> <span data-translate="basement-elevation-text">Starting approximately 5 feet <em>below</em> the road level and extending up to 2-3 feet <em>above</em> the road level</span></li>
+                                <li><strong data-translate="basement-height-label">Total Height:</strong> <span data-translate="basement-height-text">Clear height of 7-8 feet for the stilt level</span></li>
                             </ul>
                         </div>
                     </div>
@@ -704,13 +769,13 @@
                     <div class="floor-item first-floor">
                         <div class="floor-title">
                             <span class="floor-emoji">🏠</span>
-                            First Floor (Residential)
+                            <span data-translate="first-floor-title">First Floor (Residential)</span>
                         </div>
                         <div class="floor-details">
                             <ul>
-                                <li><strong>Purpose:</strong> Main residential floor</li>
-                                <li><strong>Elevation:</strong> Floor level starting 2-3 feet <em>above</em> the road, sitting directly on top of the stilt structure</li>
-                                <li><strong>Layout:</strong> Part of the 4-room residential requirement</li>
+                                <li><strong data-translate="first-floor-purpose-label">Purpose:</strong> <span data-translate="first-floor-purpose-text">Main residential floor</span></li>
+                                <li><strong data-translate="first-floor-elevation-label">Elevation:</strong> <span data-translate="first-floor-elevation-text">Floor level starting 2-3 feet <em>above</em> the road, sitting directly on top of the stilt structure</span></li>
+                                <li><strong data-translate="first-floor-layout-label">Layout:</strong> <span data-translate="first-floor-layout-text">Part of the 4-room residential requirement</span></li>
                             </ul>
                         </div>
                     </div>
@@ -718,65 +783,56 @@
                     <div class="floor-item second-floor">
                         <div class="floor-title">
                             <span class="floor-emoji">🏠</span>
-                            Second Floor (Residential)
+                            <span data-translate="second-floor-title">Second Floor (Residential)</span>
                         </div>
                         <div class="floor-details">
                             <ul>
-                                <li><strong>Purpose:</strong> Additional residential space</li>
-                                <li><strong>Layout:</strong> Completion of the 4-room total requirement</li>
-                                <li><strong>Flexibility:</strong> Open to discussion for optimal space utilization</li>
+                                <li><strong data-translate="second-floor-purpose-label">Purpose:</strong> <span data-translate="second-floor-purpose-text">Additional residential space</span></li>
+                                <li><strong data-translate="second-floor-layout-label">Layout:</strong> <span data-translate="second-floor-layout-text">Completion of the 4-room total requirement</span></li>
+                                <li><strong data-translate="second-floor-flexibility-label">Flexibility:</strong> <span data-translate="second-floor-flexibility-text">Open to discussion for optimal space utilization</span></li>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <h4 style="font-size: 18px; margin: 25px 0 15px 0; color: #2c3e50;">Key Feature : Dual Access</h4>
+                
+                <h4 style="font-size: 18px; margin: 25px 0 15px 0; color: #2c3e50;" data-translate="dual-access-title">Key Feature : Dual Access</h4>
                 <div class="paragraph">
-                    <li>
-                        On one side of the house, a vehicle slope
-                        <strong>5′ below</strong> road level connects the <strong>basement</strong> directly to the road.
-                    </li>
-                    <li>
-                        On another side, pedestrian stairs
-                        <strong>2′ above</strong> road level connect the <strong>first floor</strong> directly to the road.
-                    </li>
-                    <p>
-                    <strong>Result: </strong> both the <strong>basement (via the down-slope)</strong> and the
-                    <strong>first floor (via the stairs)</strong> have direct road access.
-                    </p>
+                    <li data-translate="dual-access-point-1">On one side of the house, a vehicle slope <strong>5′ below</strong> road level connects the <strong>basement</strong> directly to the road.</li>
+                    <li data-translate="dual-access-point-2">On another side, pedestrian stairs <strong>2′ above</strong> road level connect the <strong>first floor</strong> directly to the road.</li>
+                    <p><strong data-translate="dual-access-result-label">Result: </strong> <span data-translate="dual-access-result-text">both the <strong>basement (via the down-slope)</strong> and the <strong>first floor (via the stairs)</strong> have direct road access.</span></p>
                 </div>
-                <h4 style="font-size: 18px; margin: 25px 0 15px 0; color: #2c3e50;">Internal Layout Requirements</h4>
+                
+                <h4 style="font-size: 18px; margin: 25px 0 15px 0; color: #2c3e50;" data-translate="layout-requirements-title">Internal Layout Requirements</h4>
                 <div class="paragraph">
-                    <li>
-                    Across the <strong>First and Second floors</strong>, I require a total of <strong>4 rooms with cross ventilation</strong>. The exact distribution (e.g., 3 on the first floor, 1 on the second, or 2 on each) is open for discussion based on the best layout. Other essential spaces would include a kitchen, living area, bathrooms, and a puja space, which we can plan together.
-                    </li>
+                    <li data-translate="layout-requirements-text">Across the <strong>First and Second floors</strong>, I require a total of <strong>4 rooms with cross ventilation</strong>. The exact distribution (e.g., 3 on the first floor, 1 on the second, or 2 on each) is open for discussion based on the best layout. Other essential spaces would include a kitchen, living area, bathrooms, and a puja space, which we can plan together.</li>
                 </div>
             </div>
             
             <div class="section">
                 <h3 class="section-title" id="section-4">
                     <div class="section-number">4</div>
-                    AREAS FOR DISCUSSION & YOUR EXPERTISE
+                    <span data-translate="section-4-title">AREAS FOR DISCUSSION & YOUR EXPERTISE</span>
                 </h3>
                 <div class="paragraph">
-                    While I have a basic concept, I want to heavily leverage your professional experience. I am very open to new ideas and would love to discuss the following points to arrive at the best possible design:
+                    <span data-translate="section-4-intro">While I have a basic concept, I want to heavily leverage your professional experience. I am very open to new ideas and would love to discuss the following points to arrive at the best possible design:</span>
                 </div>
                 <div class="discussion-areas">
                     <div class="discussion-list">
                         <div class="discussion-item">
-                            <h5>🏗️ Structural Feasibility</h5>
-                            <p>Your expert opinion on the foundation and stilt-floor design, considering the soil and waterlogging conditions.</p>
+                            <h5>🏗️ <span data-translate="discussion-1-title">Structural Feasibility</span></h5>
+                            <p data-translate="discussion-1-text">Your expert opinion on the foundation and stilt-floor design, considering the soil and waterlogging conditions.</p>
                         </div>
                         <div class="discussion-item">
-                            <h5>📐 Internal Space Planning</h5>
-                            <p>How to best optimize the flow and space within the ~1000 sq. ft. footprint of each residential floor.</p>
+                            <h5>📐 <span data-translate="discussion-2-title">Internal Space Planning</span></h5>
+                            <p data-translate="discussion-2-text">How to best optimize the flow and space within the ~1000 sq. ft. footprint of each residential floor.</p>
                         </div>
                         <div class="discussion-item">
-                            <h5>🏠 Top Floor & Terrace Design</h5>
-                            <p>What would you recommend for the top-most level? A full second-floor construction, or a partial construction with a beautiful open terrace?</p>
+                            <h5>🏠 <span data-translate="discussion-3-title">Top Floor & Terrace Design</span></h5>
+                            <p data-translate="discussion-3-text">What would you recommend for the top-most level? A full second-floor construction, or a partial construction with a beautiful open terrace?</p>
                         </div>
                         <div class="discussion-item">
-                            <h5>🎨 External Elevation & Aesthetics</h5>
-                            <p>I would like a minimalst modern external design. I am counting on your creativity to design a visually striking facade.</p>
+                            <h5>🎨 <span data-translate="discussion-4-title">External Elevation & Aesthetics</span></h5>
+                            <p data-translate="discussion-4-text">I would like a minimalist modern external design. I am counting on your creativity to design a visually striking facade.</p>
                         </div>
                     </div>
                 </div>
@@ -785,53 +841,53 @@
             <div class="section">
                 <h3 class="section-title" id="section-5">
                     <div class="section-number">5</div>
-                    KEY DELIVERABLES REQUIRED
+                    <span data-translate="section-5-title">KEY DELIVERABLES REQUIRED</span>
                 </h3>
                 <div class="paragraph">
-                    In addition to the creative design process, I would require the following tangible deliverables to ensure the project is executed smoothly and within budget:
+                    <span data-translate="section-5-intro">In addition to the creative design process, I would require the following tangible deliverables to ensure the project is executed smoothly and within budget:</span>
                 </div>
                 <div class="deliverables-grid">
                     <div class="deliverable-card">
-                        <h5>📋 Architectural Drawings</h5>
+                        <h5>📋 <span data-translate="deliverable-1-title">Architectural Drawings</span></h5>
                         <ul>
-                            <li>Comprehensive 2D floor plans</li>
-                            <li>Detailed elevations</li>
-                            <li>Section drawings</li>
+                            <li data-translate="deliverable-1-item-1">Comprehensive 2D floor plans</li>
+                            <li data-translate="deliverable-1-item-2">Detailed elevations</li>
+                            <li data-translate="deliverable-1-item-3">Section drawings</li>
                         </ul>
                     </div>
                     <div class="deliverable-card">
-                        <h5>🖼️ 3D Visualizations</h5>
+                        <h5>🖼️ <span data-translate="deliverable-2-title">3D Visualizations</span></h5>
                         <ul>
-                            <li>Photorealistic 3D renders of exterior</li>
-                            <li>Key interior space visualizations</li>
-                            <li>Multiple angle perspectives</li>
+                            <li data-translate="deliverable-2-item-1">Photorealistic 3D renders of exterior</li>
+                            <li data-translate="deliverable-2-item-2">Key interior space visualizations</li>
+                            <li data-translate="deliverable-2-item-3">Multiple angle perspectives</li>
                         </ul>
                     </div>
                     <div class="deliverable-card">
-                        <h5>💰 Cost Estimation & BOQ</h5>
+                        <h5>💰 <span data-translate="deliverable-3-title">Cost Estimation & BOQ</span></h5>
                         <ul>
-                            <li>Cost per floor/portion breakdown</li>
-                            <li>Itemized material costs</li>
-                            <li>Estimated labor costs</li>
-                            <li>Total project cost estimate</li>
+                            <li data-translate="deliverable-3-item-1">Cost per floor/portion breakdown</li>
+                            <li data-translate="deliverable-3-item-2">Itemized material costs</li>
+                            <li data-translate="deliverable-3-item-3">Estimated labor costs</li>
+                            <li data-translate="deliverable-3-item-4">Total project cost estimate</li>
                         </ul>
                     </div>
                     <div class="deliverable-card">
-                        <h5>🎨 Material Specifications</h5>
+                        <h5>🎨 <span data-translate="deliverable-4-title">Material Specifications</span></h5>
                         <ul>
-                            <li>Detailed material lists</li>
-                            <li>Specific color codes</li>
-                            <li>Finish specifications</li>
-                            <li>Brand recommendations</li>
+                            <li data-translate="deliverable-4-item-1">Detailed material lists</li>
+                            <li data-translate="deliverable-4-item-2">Specific color codes</li>
+                            <li data-translate="deliverable-4-item-3">Finish specifications</li>
+                            <li data-translate="deliverable-4-item-4">Brand recommendations</li>
                         </ul>
                     </div>
                     <div class="deliverable-card">
-                        <h5>⚡ Technical Drawings</h5>
+                        <h5>⚡ <span data-translate="deliverable-5-title">Technical Drawings</span></h5>
                         <ul>
-                            <li>Structural drawings coordination</li>
-                            <li>Electrical layout plans</li>
-                            <li>Plumbing system drawings</li>
-                            <li>Service integration details</li>
+                            <li data-translate="deliverable-5-item-1">Structural drawings coordination</li>
+                            <li data-translate="deliverable-5-item-2">Electrical layout plans</li>
+                            <li data-translate="deliverable-5-item-3">Plumbing system drawings</li>
+                            <li data-translate="deliverable-5-item-4">Service integration details</li>
                         </ul>
                     </div>
                 </div>
@@ -841,43 +897,43 @@
             <div class="section">
                 <h3 class="section-title" id="section-6">
                     <div class="section-number">6</div>
-                    NEXT STEPS
+                    <span data-translate="section-6-title">NEXT STEPS</span>
                 </h3>
                 <div class="next-steps-card">
-                    <h4>🤝 Let's Collaborate</h4>
-                    <p>I would be grateful for the opportunity to discuss this project with you further. Could you please let me know your availability for an initial consultation (virtual or in-person if you are in bengaluru)?</p>
-                    <p>I would also appreciate it if you could share an overview of your design process, portfolio of similar projects, and your fee structure for the scope of work outlined above.</p>
+                    <h4>🤝 <span data-translate="collaboration-title">Let's Collaborate</span></h4>
+                    <p data-translate="collaboration-text-1">I would be grateful for the opportunity to discuss this project with you further. Could you please let me know your availability for an initial consultation (virtual or in-person if you are in bengaluru)?</p>
+                    <p data-translate="collaboration-text-2">I would also appreciate it if you could share an overview of your design process, portfolio of similar projects, and your fee structure for the scope of work outlined above.</p>
                 </div>
                 <div class="paragraph">
-                    Thank you for your time and consideration. I am very excited about the possibility of working with you to build my dream home.
+                    <span data-translate="closing-text">Thank you for your time and consideration. I am very excited about the possibility of working with you to build my dream home.</span>
                 </div>
             </div>
             
             <div class="signature">
-                <p><strong>Best regards,</strong></p>
-                <p class="name">Amit Roy</p>
+                <p><strong data-translate="signature-regards">Best regards,</strong></p>
+                <p class="name" data-translate="signature-name">Amit Roy</p>
             </div>
         </div>
         
         <div class="contact-section">
-            <h4>📞 Contact Information</h4>
+            <h4>📞 <span data-translate="contact-title">Contact Information</span></h4>
             <div class="contact-info">
                 <div class="contact-item">
-                    <strong>Phone</strong>
+                    <strong data-translate="contact-phone">Phone</strong>
                     <span>8900067947</span>
                     <br>
                     <span>8250799755</span>
                 </div>
                 <div class="contact-item">
-                    <strong>Email</strong>
+                    <strong data-translate="contact-email">Email</strong>
                     <span>amitroy2930@gmail.com</span>
                 </div>
                 <div class="contact-item">
-                    <strong>Current Location</strong>
+                    <strong data-translate="contact-current-location">Current Location</strong>
                     <span>Brookefield, Bengaluru, Karnataka, 560037</span>
                 </div>
                 <div class="contact-item">
-                    <strong>Project Site</strong>
+                    <strong data-translate="contact-project-site">Project Site</strong>
                     <span>Natuk, Ghatal, Paschim Medinipur, West Bengal, 721232</span>
                 </div>
             </div>
@@ -885,50 +941,538 @@
     </div>
     
     <button class="print-button" onclick="window.print()">
-        📄 Print Proposal
+        📄 <span data-translate="print-button">Print Proposal</span>
     </button>
 
     <script>
-        // Get references to the theme button and the body
+        // Language translations
+        const translations = {
+            en: {
+                "page-title": "Architectural Design Consultation Proposal",
+                "header-title": "Architectural Design Consultation",
+                "subject-label": "Subject:",
+                "subject-text": "Proposal for Architectural Design Services for a Flood-Resistant Three-Story Residence",
+                "date-label": "Date:",
+                "date-value": "August 24, 2025",
+                "greeting": "Dear Architect,",
+                "intro-text": "I hope this letter finds you well. I am Amit Roy, a Gen AI Engineer based in Bengaluru, writing to seek your professional expertise for designing my residential house in my native village.",
+                "section-1-title": "PROJECT OVERVIEW",
+                "section-1-content": "I am planning to construct a 3-story residence in Paschim Medinipur, West Bengal and would greatly appreciate your guidance on both architectural design and structural planning.",
+                "section-2-title": "PLOT DETAILS & SITE CHALLENGES",
+                "section-2-intro": "The plot has some specific environmental and topographical challenges that will require careful design consideration.",
+                "table-parameter": "Parameter",
+                "table-details": "Details",
+                "plot-dimensions": "Plot Dimensions",
+                "plot-dimensions-value": "32 feet (Width) * 60 feet (Length)",
+                "plot-area": "Total Plot Area",
+                "plot-area-value": "1,920 sq. ft.",
+                "construction-target": "Construction Target",
+                "construction-target-value": "900 - 1000 sq. ft. per floor",
+                "road-access": "Road Access",
+                "road-access-value": "The plot is adjacent to a road",
+                "elevation": "Elevation",
+                "elevation-value": "The plot is approximately <strong>6 feet below the road level</strong>",
+                "water-logging": "Water Logging",
+                "water-logging-value": "Seasonal waterlogging with water levels reaching up to <strong>3 feet</strong> for nearly 6 months of the year",
+                "section-3-title": "PROPOSED STRUCTURE",
+                "floor-structure-title": "Floor-wise Structure Concept",
+                "basement-title": "Raised Ground Floor (Stilt Level for Parking/Storage)",
+                "basement-purpose-label": "Purpose:",
+                "basement-purpose-text": "Exclusively for car parking and general storage. No rooms or internal walls required to maintain an open, usable space",
+                "basement-elevation-label": "Elevation:",
+                "basement-elevation-text": "Starting approximately 5 feet <em>below</em> the road level and extending up to 2-3 feet <em>above</em> the road level",
+                "basement-height-label": "Total Height:",
+                "basement-height-text": "Clear height of 7-8 feet for the stilt level",
+                "first-floor-title": "First Floor (Residential)",
+                "first-floor-purpose-label": "Purpose:",
+                "first-floor-purpose-text": "Main residential floor",
+                "first-floor-elevation-label": "Elevation:",
+                "first-floor-elevation-text": "Floor level starting 2-3 feet <em>above</em> the road, sitting directly on top of the stilt structure",
+                "first-floor-layout-label": "Layout:",
+                "first-floor-layout-text": "Part of the 4-room residential requirement",
+                "second-floor-title": "Second Floor (Residential)",
+                "second-floor-purpose-label": "Purpose:",
+                "second-floor-purpose-text": "Additional residential space",
+                "second-floor-layout-label": "Layout:",
+                "second-floor-layout-text": "Completion of the 4-room total requirement",
+                "second-floor-flexibility-label": "Flexibility:",
+                "second-floor-flexibility-text": "Open to discussion for optimal space utilization",
+                "dual-access-title": "Key Feature : Dual Access",
+                "dual-access-point-1": "On one side of the house, a vehicle slope <strong>5′ below</strong> road level connects the <strong>basement</strong> directly to the road.",
+                "dual-access-point-2": "On another side, pedestrian stairs <strong>2′ above</strong> road level connect the <strong>first floor</strong> directly to the road.",
+                "dual-access-result-label": "Result: ",
+                "dual-access-result-text": "both the <strong>basement (via the down-slope)</strong> and the <strong>first floor (via the stairs)</strong> have direct road access.",
+                "layout-requirements-title": "Internal Layout Requirements",
+                "layout-requirements-text": "Across the <strong>First and Second floors</strong>, I require a total of <strong>4 rooms with cross ventilation</strong>. The exact distribution (e.g., 3 on the first floor, 1 on the second, or 2 on each) is open for discussion based on the best layout. Other essential spaces would include a kitchen, living area, bathrooms, and a puja space, which we can plan together.",
+                "section-4-title": "AREAS FOR DISCUSSION & YOUR EXPERTISE",
+                "section-4-intro": "While I have a basic concept, I want to heavily leverage your professional experience. I am very open to new ideas and would love to discuss the following points to arrive at the best possible design:",
+                "discussion-1-title": "Structural Feasibility",
+                "discussion-1-text": "Your expert opinion on the foundation and stilt-floor design, considering the soil and waterlogging conditions.",
+                "discussion-2-title": "Internal Space Planning",
+                "discussion-2-text": "How to best optimize the flow and space within the ~1000 sq. ft. footprint of each residential floor.",
+                "discussion-3-title": "Top Floor & Terrace Design",
+                "discussion-3-text": "What would you recommend for the top-most level? A full second-floor construction, or a partial construction with a beautiful open terrace?",
+                "discussion-4-title": "External Elevation & Aesthetics",
+                "discussion-4-text": "I would like a minimalist modern external design. I am counting on your creativity to design a visually striking facade.",
+                "section-5-title": "KEY DELIVERABLES REQUIRED",
+                "section-5-intro": "In addition to the creative design process, I would require the following tangible deliverables to ensure the project is executed smoothly and within budget:",
+                "deliverable-1-title": "Architectural Drawings",
+                "deliverable-1-item-1": "Comprehensive 2D floor plans",
+                "deliverable-1-item-2": "Detailed elevations",
+                "deliverable-1-item-3": "Section drawings",
+                "deliverable-2-title": "3D Visualizations",
+                "deliverable-2-item-1": "Photorealistic 3D renders of exterior",
+                "deliverable-2-item-2": "Key interior space visualizations",
+                "deliverable-2-item-3": "Multiple angle perspectives",
+                "deliverable-3-title": "Cost Estimation & BOQ",
+                "deliverable-3-item-1": "Cost per floor/portion breakdown",
+                "deliverable-3-item-2": "Itemized material costs",
+                "deliverable-3-item-3": "Estimated labor costs",
+                "deliverable-3-item-4": "Total project cost estimate",
+                "deliverable-4-title": "Material Specifications",
+                "deliverable-4-item-1": "Detailed material lists",
+                "deliverable-4-item-2": "Specific color codes",
+                "deliverable-4-item-3": "Finish specifications",
+                "deliverable-4-item-4": "Brand recommendations",
+                "deliverable-5-title": "Technical Drawings",
+                "deliverable-5-item-1": "Structural drawings coordination",
+                "deliverable-5-item-2": "Electrical layout plans",
+                "deliverable-5-item-3": "Plumbing system drawings",
+                "deliverable-5-item-4": "Service integration details",
+                "section-6-title": "NEXT STEPS",
+                "collaboration-title": "Let's Collaborate",
+                "collaboration-text-1": "I would be grateful for the opportunity to discuss this project with you further. Could you please let me know your availability for an initial consultation (virtual or in-person if you are in bengaluru)?",
+                "collaboration-text-2": "I would also appreciate it if you could share an overview of your design process, portfolio of similar projects, and your fee structure for the scope of work outlined above.",
+                "closing-text": "Thank you for your time and consideration. I am very excited about the possibility of working with you to build my dream home.",
+                "signature-regards": "Best regards,",
+                "signature-name": "Amit Roy",
+                "contact-title": "Contact Information",
+                "contact-phone": "Phone",
+                "contact-email": "Email",
+                "contact-current-location": "Current Location",
+                "contact-project-site": "Project Site",
+                "print-button": "Print Proposal"
+            },
+            bn: {
+                "page-title": "স্থাপত্য নকশা পরামর্শ প্রস্তাব",
+                "header-title": "স্থাপত্য নকশা পরামর্শ",
+                "subject-label": "বিষয়:",
+                "subject-text": "বন্যা-প্রতিরোধী তিন তলা বাসভবনের জন্য স্থাপত্য নকশা সেবার প্রস্তাব",
+                "date-label": "তারিখ:",
+                "date-value": "২৪ আগস্ট, ২০২৫",
+                "greeting": "প্রিয় স্থপতি,",
+                "intro-text": "আশা করি এই চিঠি আপনার কাছে ভাল অবস্থায় পৌঁছেছে। আমি অমিত রায়, বেঙ্গালুরুতে অবস্থিত একজন জেন এআই ইঞ্জিনিয়ার, আমার জন্মস্থানে আমার আবাসিক বাড়ির নকশার জন্য আপনার পেশাদার দক্ষতা চাইতে লিখছি।",
+                "section-1-title": "প্রকল্প সংক্ষিপ্ত বিবরণ",
+                "section-1-content": "আমি পশ্চিম মেদিনীপুরে একটি তিন তলা বাসভবন নির্মাণের পরিকল্পনা করছি এবং স্থাপত্য নকশা ও কাঠামোগত পরিকল্পনা উভয় ক্ষেত্রেই আপনার নির্দেশনা অত্যন্ত প্রশংসা করব।",
+                "section-2-title": "প্লট বিবরণ ও স্থানের চ্যালেঞ্জ",
+                "section-2-intro": "প্লটটিতে কিছু নির্দিষ্ট পরিবেশগত এবং ভূতাত্ত্বিক চ্যালেঞ্জ রয়েছে যার জন্য সতর্ক নকশা বিবেচনা প্রয়োজন।",
+                "table-parameter": "পরামিতি",
+                "table-details": "বিবরণ",
+                "plot-dimensions": "প্লটের মাত্রা",
+                "plot-dimensions-value": "৩২ ফুট (প্রস্থ) * ৬০ ফুট (দৈর্ঘ্য)",
+                "plot-area": "মোট প্লট এলাকা",
+                "plot-area-value": "১,৯২০ বর্গফুট",
+                "construction-target": "নির্মাণ লক্ষ্য",
+                "construction-target-value": "প্রতি তলায় ৯০০ - ১০০০ বর্গফুট",
+                "road-access": "রাস্তার প্রবেশাধিকার",
+                "road-access-value": "প্লটটি একটি রাস্তার সাথে সংলগ্ন",
+                "elevation": "উচ্চতা",
+                "elevation-value": "প্লটটি রাস্তার স্তর থেকে প্রায় <strong>৬ ফুট নিচে</strong>",
+                "water-logging": "জল জমা",
+                "water-logging-value": "মৌসুমী জলাবদ্ধতা যেখানে জলের স্তর <strong>৩ ফুট</strong> পর্যন্ত প্রায় ৬ মাস ধরে পৌঁছায়",
+                "section-3-title": "প্রস্তাবিত কাঠামো",
+                "floor-structure-title": "তলা অনুসারে কাঠামো ধারণা",
+                "basement-title": "উত্থিত গ্রাউন্ড ফ্লোর (পার্কিং/সংরক্ষণের জন্য স্টিল্ট স্তর)",
+                "basement-purpose-label": "উদ্দেশ্য:",
+                "basement-purpose-text": "একচেটিয়াভাবে গাড়ি পার্কিং এবং সাধারণ সংরক্ষণের জন্য। একটি উন্মুক্ত, ব্যবহারযোগ্য স্থান বজায় রাখার জন্য কোন রুম বা অভ্যন্তরীণ দেয়াল প্রয়োজন নেই",
+                "basement-elevation-label": "উচ্চতা:",
+                "basement-elevation-text": "রাস্তার স্তর থেকে প্রায় ৫ ফুট <em>নিচে</em> শুরু হয়ে রাস্তার স্তর থেকে ২-৩ ফুট <em>উপরে</em> পর্যন্ত বিস্তৃত",
+                "basement-height-label": "মোট উচ্চতা:",
+                "basement-height-text": "স্টিল্ট স্তরের জন্য ৭-৮ ফুট পরিষ্কার উচ্চতা",
+                "first-floor-title": "প্রথম তলা (আবাসিক)",
+                "first-floor-purpose-label": "উদ্দেশ্য:",
+                "first-floor-purpose-text": "মূল আবাসিক তলা",
+                "first-floor-elevation-label": "উচ্চতা:",
+                "first-floor-elevation-text": "রাস্তা থেকে ২-৩ ফুট <em>উপরে</em> তলার স্তর শুরু, সরাসরি স্টিল্ট কাঠামোর উপরে বসে",
+                "first-floor-layout-label": "বিন্যাস:",
+                "first-floor-layout-text": "৪ রুম আবাসিক প্রয়োজনের অংশ",
+                "second-floor-title": "দ্বিতীয় তলা (আবাসিক)",
+                "second-floor-purpose-label": "উদ্দেশ্য:",
+                "second-floor-purpose-text": "অতিরিক্ত আবাসিক স্থান",
+                "second-floor-layout-label": "বিন্যাস:",
+                "second-floor-layout-text": "মোট ৪ রুম প্রয়োজনীয়তার সমাপ্তি",
+                "second-floor-flexibility-label": "নমনীয়তা:",
+                "second-floor-flexibility-text": "অনুকূল স্থান ব্যবহারের জন্য আলোচনার জন্য উন্মুক্ত",
+                "dual-access-title": "মূল বৈশিষ্ট্য : দ্বিমুখী প্রবেশাধিকার",
+                "dual-access-point-1": "বাড়ির একপাশে, একটি গাড়ির ঢাল <strong>৫′ নিচে</strong> রাস্তার স্তর <strong>বেসমেন্ট</strong>কে সরাসরি রাস্তার সাথে সংযুক্ত করে।",
+                "dual-access-point-2": "অন্য পাশে, পথচারী সিঁড়ি <strong>২′ উপরে</strong> রাস্তার স্তর <strong>প্রথম তলা</strong>কে সরাসরি রাস্তার সাথে সংযুক্ত করে।",
+                "dual-access-result-label": "ফলাফল: ",
+                "dual-access-result-text": "<strong>বেসমেন্ট (নিম্নমুখী ঢালের মাধ্যমে)</strong> এবং <strong>প্রথম তলা (সিঁড়ির মাধ্যমে)</strong> উভয়েরই সরাসরি রাস্তার প্রবেশাধিকার রয়েছে।",
+                "layout-requirements-title": "অভ্যন্তরীণ বিন্যাস প্রয়োজনীয়তা",
+                "layout-requirements-text": "<strong>প্রথম এবং দ্বিতীয় তলা</strong> জুড়ে, আমার <strong>ক্রস বায়ুচলাচল সহ মোট ৪টি রুম</strong> প্রয়োজন। সঠিক বিতরণ (যেমন, প্রথম তলায় ৩টি, দ্বিতীয়তে ১টি, বা প্রতিটিতে ২টি) সেরা বিন্যাসের উপর ভিত্তি করে আলোচনার জন্য উন্মুক্ত। অন্যান্য প্রয়োজনীয় স্থানগুলিতে একটি রান্নাঘর, বসার এলাকা, বাথরুম এবং একটি পূজার স্থান অন্তর্ভুক্ত থাকবে, যা আমরা একসাথে পরিকল্পনা করতে পারি।",
+                "section-4-title": "আলোচনার ক্ষেত্র ও আপনার দক্ষতা",
+                "section-4-intro": "যদিও আমার একটি মৌলিক ধারণা আছে, আমি আপনার পেশাদার অভিজ্ঞতাকে ব্যাপকভাবে কাজে লাগাতে চাই। আমি নতুন ধারণার জন্য খুবই উন্মুক্ত এবং সেরা সম্ভাব্য নকশায় পৌঁছানোর জন্য নিম্নলিখিত বিষয়গুলি নিয়ে আলোচনা করতে চাই:",
+                "discussion-1-title": "কাঠামোগত সম্ভাব্যতা",
+                "discussion-1-text": "মাটি এবং জলাবদ্ধতার অবস্থা বিবেচনা করে ভিত্তি এবং স্টিল্ট-ফ্লোর নকশার উপর আপনার বিশেষজ্ঞ মতামত।",
+                "discussion-2-title": "অভ্যন্তরীণ স্থান পরিকল্পনা",
+                "discussion-2-text": "প্রতিটি আবাসিক তলার ~১০০০ বর্গফুট পদচিহ্নের মধ্যে প্রবাহ এবং স্থানকে কীভাবে সবচেয়ে ভালভাবে অনুকূল করা যায়।",
+                "discussion-3-title": "শীর্ষ তলা ও ছাদ নকশা",
+                "discussion-3-text": "শীর্ষতম স্তরের জন্য আপনি কী সুপারিশ করবেন? একটি সম্পূর্ণ দ্বিতীয় তলা নির্মাণ, নাকি একটি সুন্দর খোলা ছাদ সহ আংশিক নির্মাণ?",
+                "discussion-4-title": "বাহ্যিক উচ্চতা ও নন্দনতত্ত্ব",
+                "discussion-4-text": "আমি একটি ন্যূনতমতাবাদী আধুনিক বাহ্যিক নকশা চাই। আমি একটি দৃশ্যত আকর্ষণীয় সম্মুখভাগ ডিজাইন করার জন্য আপনার সৃজনশীলতার উপর নির্ভর করছি।",
+                "section-5-title": "মূল সরবরাহযোগ্য প্রয়োজনীয়",
+                "section-5-intro": "সৃজনশীল নকশা প্রক্রিয়া ছাড়াও, প্রকল্পটি মসৃণভাবে এবং বাজেটের মধ্যে সম্পাদিত হয় তা নিশ্চিত করতে আমার নিম্নলিখিত বাস্তব সরবরাহযোগ্য প্রয়োজন:",
+                "deliverable-1-title": "স্থাপত্য অঙ্কন",
+                "deliverable-1-item-1": "ব্যাপক ২ডি ফ্লোর প্ল্যান",
+                "deliverable-1-item-2": "বিস্তারিত উচ্চতা",
+                "deliverable-1-item-3": "বিভাগ অঙ্কন",
+                "deliverable-2-title": "থ্রিডি ভিজুয়ালাইজেশন",
+                "deliverable-2-item-1": "বাহ্যিকের ফটোরিয়ালিস্টিক থ্রিডি রেন্ডার",
+                "deliverable-2-item-2": "মূল অভ্যন্তরীণ স্থান ভিজুয়ালাইজেশন",
+                "deliverable-2-item-3": "বহুকোণীয় দৃষ্টিভঙ্গি",
+                "deliverable-3-title": "খরচ অনুমান ও বিওকিউ",
+                "deliverable-3-item-1": "প্রতি তলা/অংশের খরচ বিভাজন",
+                "deliverable-3-item-2": "আইটেমাইজড উপকরণ খরচ",
+                "deliverable-3-item-3": "আনুমানিক শ্রম খরচ",
+                "deliverable-3-item-4": "মোট প্রকল্প খরচ অনুমান",
+                "deliverable-4-title": "উপকরণ স্পেসিফিকেশন",
+                "deliverable-4-item-1": "বিস্তারিত উপকরণের তালিকা",
+                "deliverable-4-item-2": "নির্দিষ্ট রঙের কোড",
+                "deliverable-4-item-3": "ফিনিস স্পেসিফিকেশন",
+                "deliverable-4-item-4": "ব্র্যান্ড সুপারিশ",
+                "deliverable-5-title": "প্রযুক্তিগত অঙ্কন",
+                "deliverable-5-item-1": "কাঠামোগত অঙ্কন সমন্বয়",
+                "deliverable-5-item-2": "বৈদ্যুতিক বিন্যাস পরিকল্পনা",
+                "deliverable-5-item-3": "প্লাম্বিং সিস্টেম অঙ্কন",
+                "deliverable-5-item-4": "সেবা একীকরণ বিবরণ",
+                "section-6-title": "পরবর্তী পদক্ষেপ",
+                "collaboration-title": "আসুন সহযোগিতা করি",
+                "collaboration-text-1": "এই প্রকল্প নিয়ে আরও আলোচনার সুযোগের জন্য আমি কৃতজ্ঞ হব। আপনি কি অনুগ্রহ করে প্রাথমিক পরামর্শের জন্য আপনার উপলব্ধতা জানাতে পারেন (ভার্চুয়াল বা ব্যক্তিগত যদি আপনি বেঙ্গালুরুতে থাকেন)?",
+                "collaboration-text-2": "আমি এটিও প্রশংসা করব যদি আপনি আপনার ডিজাইন প্রক্রিয়া, অনুরূপ প্রকল্পের পোর্টফোলিও এবং উপরে বর্ণিত কাজের পরিধির জন্য আপনার ফি কাঠামোর একটি সংক্ষিপ্ত বিবরণ শেয়ার করতে পারেন।",
+                "closing-text": "আপনার সময় এবং বিবেচনার জন্য ধন্যবাদ। আমার স্বপ্নের ঘর তৈরি করার জন্য আপনার সাথে কাজ করার সম্ভাবনায় আমি খুবই উত্সাহিত।",
+                "signature-regards": "শুভেচ্ছা সহ,",
+                "signature-name": "অমিত রায়",
+                "contact-title": "যোগাযোগের তথ্য",
+                "contact-phone": "ফোন",
+                "contact-email": "ইমেইল",
+                "contact-current-location": "বর্তমান অবস্থান",
+                "contact-project-site": "প্রকল্প স্থান",
+                "print-button": "প্রস্তাব প্রিন্ট করুন"
+            },
+            hi: {
+                "page-title": "स्थापत्य डिजाइन परामर्श प्रस्ताव",
+                "header-title": "स्थापत्य डिजाइन परामर्श",
+                "subject-label": "विषय:",
+                "subject-text": "बाढ़-प्रतिरोधी तीन मंजिला निवास के लिए स्थापत्य डिजाइन सेवाओं का प्रस्ताव",
+                "date-label": "दिनांक:",
+                "date-value": "24 अगस्त, 2025",
+                "greeting": "प्रिय वास्तुकार,",
+                "intro-text": "मुझे उम्मीद है कि यह पत्र आपको अच्छी स्थिति में मिला होगा। मैं अमित रॉय हूं, बेंगलुरु में स्थित एक जेन एआई इंजीनियर, अपने जन्म स्थान में अपने आवासीय घर के डिजाइन के लिए आपकी पेशेवर विशेषज्ञता मांगने के लिए लिख रहा हूं।",
+                "section-1-title": "परियोजना अवलोकन",
+                "section-1-content": "मैं पश्चिम मेदिनीपुर, पश्चिम बंगाल में एक 3-मंजिला निवास का निर्माण करने की योजना बना रहा हूं और स्थापत्य डिजाइन और संरचनात्मक योजना दोनों पर आपके मार्गदर्शन की बहुत सराहना करूंगा।",
+                "section-2-title": "भूखंड विवरण और स्थल चुनौतियां",
+                "section-2-intro": "भूखंड में कुछ विशिष्ट पर्यावरणीय और स्थलाकृतिक चुनौतियां हैं जिनके लिए सावधानीपूर्वक डिजाइन विचार की आवश्यकता होगी।",
+                "table-parameter": "पैरामीटर",
+                "table-details": "विवरण",
+                "plot-dimensions": "भूखंड आयाम",
+                "plot-dimensions-value": "32 फीट (चौड़ाई) * 60 फीट (लंबाई)",
+                "plot-area": "कुल भूखंड क्षेत्र",
+                "plot-area-value": "1,920 वर्ग फुट",
+                "construction-target": "निर्माण लक्ष्य",
+                "construction-target-value": "प्रति मंजिल 900 - 1000 वर्ग फुट",
+                "road-access": "सड़क पहुंच",
+                "road-access-value": "भूखंड एक सड़क के नजदीक है",
+                "elevation": "ऊंचाई",
+                "elevation-value": "भूखंड सड़क स्तर से लगभग <strong>6 फीट नीचे</strong> है",
+                "water-logging": "जल भराव",
+                "water-logging-value": "मौसमी जल भराव जिसमें पानी का स्तर लगभग 6 महीने तक <strong>3 फीट</strong> तक पहुंचता है",
+                "section-3-title": "प्रस्तावित संरचना",
+                "floor-structure-title": "मंजिल-वार संरचना अवधारणा",
+                "basement-title": "उठा हुआ भूतल (पार्किंग/भंडारण के लिए स्टिल्ट स्तर)",
+                "basement-purpose-label": "उद्देश्य:",
+                "basement-purpose-text": "विशेष रूप से कार पार्किंग और सामान्य भंडारण के लिए। खुले, उपयोगी स्थान को बनाए रखने के लिए कोई कमरे या आंतरिक दीवारों की आवश्यकता नहीं",
+                "basement-elevation-label": "ऊंचाई:",
+                "basement-elevation-text": "सड़क स्तर से लगभग 5 फीट <em>नीचे</em> से शुरू होकर सड़क स्तर से 2-3 फीट <em>ऊपर</em> तक विस्तृत",
+                "basement-height-label": "कुल ऊंचाई:",
+                "basement-height-text": "स्टिल्ट स्तर के लिए 7-8 फीट की साफ ऊंचाई",
+                "first-floor-title": "पहली मंजिल (आवासीय)",
+                "first-floor-purpose-label": "उद्देश्य:",
+                "first-floor-purpose-text": "मुख्य आवासीय मंजिल",
+                "first-floor-elevation-label": "ऊंचाई:",
+                "first-floor-elevation-text": "सड़क से 2-3 फीट <em>ऊपर</em> मंजिल स्तर शुरू, सीधे स्टिल्ट संरचना के ऊपर बैठी",
+                "first-floor-layout-label": "लेआउट:",
+                "first-floor-layout-text": "4-कमरे आवासीय आवश्यकता का हिस्सा",
+                "second-floor-title": "दूसरी मंजिल (आवासीय)",
+                "second-floor-purpose-label": "उद्देश्य:",
+                "second-floor-purpose-text": "अतिरिक्त आवासीय स्थान",
+                "second-floor-layout-label": "लेआउट:",
+                "second-floor-layout-text": "कुल 4 कमरों की आवश्यकता की पूर्ति",
+                "second-floor-flexibility-label": "लचीलापन:",
+                "second-floor-flexibility-text": "अनुकूल स्थान उपयोग के लिए चर्चा के लिए खुला",
+                "dual-access-title": "मुख्य विशेषता : दोहरी पहुंच",
+                "dual-access-point-1": "घर के एक तरफ, एक वाहन ढाल <strong>5′ नीचे</strong> सड़क स्तर <strong>तहखाने</strong> को सीधे सड़क से जोड़ती है।",
+                "dual-access-point-2": "दूसरी तरफ, पैदल यात्री सीढ़ियां <strong>2′ ऊपर</strong> सड़क स्तर <strong>पहली मंजिल</strong> को सीधे सड़क से जोड़ती हैं।",
+                "dual-access-result-label": "परिणाम: ",
+                "dual-access-result-text": "<strong>तहखाना (नीचे की ढाल के माध्यम से)</strong> और <strong>पहली मंजिल (सीढ़ियों के माध्यम से)</strong> दोनों की सीधी सड़क पहुंच है।",
+                "layout-requirements-title": "आंतरिक लेआउट आवश्यकताएं",
+                "layout-requirements-text": "<strong>पहली और दूसरी मंजिल</strong> में, मुझे <strong>क्रॉस वेंटिलेशन के साथ कुल 4 कमरों</strong> की आवश्यकता है। सटीक वितरण (जैसे, पहली मंजिल पर 3, दूसरी पर 1, या प्रत्येक पर 2) सबसे अच्छे लेआउट के आधार पर चर्चा के लिए खुला है। अन्य आवश्यक स्थानों में एक रसोई, बैठक क्षेत्र, बाथरूम और एक पूजा स्थान शामिल होगा, जिसकी हम एक साथ योजना बना सकते हैं।",
+                "section-4-title": "चर्चा के क्षेत्र और आपकी विशेषज्ञता",
+                "section-4-intro": "जबकि मेरे पास एक बुनियादी अवधारणा है, मैं आपके पेशेवर अनुभव का भारी उपयोग करना चाहता हूं। मैं नए विचारों के लिए बहुत खुला हूं और सबसे अच्छे संभावित डिजाइन तक पहुंचने के लिए निम्नलिखित बिंदुओं पर चर्चा करना चाहूंगा:",
+                "discussion-1-title": "संरचनात्मक व्यवहार्यता",
+                "discussion-1-text": "मिट्टी और जल भराव की स्थितियों को देखते हुए नींव और स्टिल्ट-फ्लोर डिजाइन पर आपकी विशेषज्ञ राय।",
+                "discussion-2-title": "आंतरिक स्थान योजना",
+                "discussion-2-text": "प्रत्येक आवासीय मंजिल के ~1000 वर्ग फुट पदचिह्न के भीतर प्रवाह और स्थान को कैसे सबसे अच्छा अनुकूलित करें।",
+                "discussion-3-title": "शीर्ष मंजिल और छत डिजाइन",
+                "discussion-3-text": "सबसे ऊपरी स्तर के लिए आप क्या सुझाएंगे? एक पूर्ण दूसरी मंजिल का निर्माण, या एक सुंदर खुली छत के साथ आंशिक निर्माण?",
+                "discussion-4-title": "बाहरी ऊंचाई और सौंदर्यशास्त्र",
+                "discussion-4-text": "मैं एक न्यूनतम आधुनिक बाहरी डिजाइन चाहूंगा। मैं एक दृश्यमान आकर्षक मुखौटा डिजाइन करने के लिए आपकी रचनात्मकता पर भरोसा कर रहा हूं।",
+                "section-5-title": "मुख्य डिलिवरेबल्स आवश्यक",
+                "section-5-intro": "रचनात्मक डिजाइन प्रक्रिया के अतिरिक्त, परियोजना को सुचारू रूप से और बजट के भीतर निष्पादित करने के लिए मुझे निम्नलिखित ठोस डिलिवरेबल्स की आवश्यकता होगी:",
+                "deliverable-1-title": "स्थापत्य चित्र",
+                "deliverable-1-item-1": "व्यापक 2डी फ्लोर प्लान",
+                "deliverable-1-item-2": "विस्तृत ऊंचाई",
+                "deliverable-1-item-3": "अनुभाग चित्र",
+                "deliverable-2-title": "3डी विज़ुअलाइज़ेशन",
+                "deliverable-2-item-1": "बाहरी की फोटोरियलिस्टिक 3डी रेंडर",
+                "deliverable-2-item-2": "मुख्य आंतरिक स्थान विज़ुअलाइज़ेशन",
+                "deliverable-2-item-3": "बहु कोण दृष्टिकोण",
+                "deliverable-3-title": "लागत अनुमान और बीओक्यू",
+                "deliverable-3-item-1": "प्रति मंजिल/भाग लागत विभाजन",
+                "deliverable-3-item-2": "मदवार सामग्री लागत",
+                "deliverable-3-item-3": "अनुमानित श्रम लागत",
+                "deliverable-3-item-4": "कुल परियोजना लागत अनुमान",
+                "deliverable-4-title": "सामग्री विनिर्देश",
+                "deliverable-4-item-1": "विस्तृत सामग्री सूची",
+                "deliverable-4-item-2": "विशिष्ट रंग कोड",
+                "deliverable-4-item-3": "फिनिश विनिर्देश",
+                "deliverable-4-item-4": "ब्रांड सिफारिशें",
+                "deliverable-5-title": "तकनीकी चित्र",
+                "deliverable-5-item-1": "संरचनात्मक चित्र समन्वय",
+                "deliverable-5-item-2": "विद्युत लेआउट योजनाएं",
+                "deliverable-5-item-3": "प्लंबिंग सिस्टम चित्र",
+                "deliverable-5-item-4": "सेवा एकीकरण विवरण",
+                "section-6-title": "अगले कदम",
+                "collaboration-title": "आइए सहयोग करें",
+                "collaboration-text-1": "मैं इस परियोजना पर आगे चर्चा करने के अवसर के लिए आभारी रहूंगा। क्या आप कृपया प्रारंभिक परामर्श के लिए अपनी उपलब्धता बता सकते हैं (वर्चुअल या व्यक्तिगत यदि आप बेंगलुरु में हैं)?",
+                "collaboration-text-2": "मैं इसकी भी सराहना करूंगा यदि आप अपनी डिजाइन प्रक्रिया, समान परियोजनाओं के पोर्टफोलियो और ऊपर बताए गए कार्य के दायरे के लिए अपनी फीस संरचना का एक अवलोकन साझा कर सकें।",
+                "closing-text": "आपके समय और विचार के लिए धन्यवाद। मैं अपना सपनों का घर बनाने के लिए आपके साथ काम करने की संभावना के बारे में बहुत उत्साहित हूं।",
+                "signature-regards": "शुभकामनाओं सहित,",
+                "signature-name": "अमित रॉय",
+                "contact-title": "संपर्क जानकारी",
+                "contact-phone": "फोन",
+                "contact-email": "ईमेल",
+                "contact-current-location": "वर्तमान स्थान",
+                "contact-project-site": "परियोजना स्थल",
+                "print-button": "प्रस्ताव प्रिंट करें"
+            },
+            kn: {
+                "page-title": "ವಾಸ್ತುಶಿಲ್ಪ ವಿನ್ಯಾಸ ಸಲಹೆ ಪ್ರಸ್ತಾವನೆ",
+                "header-title": "ವಾಸ್ತುಶಿಲ್ಪ ವಿನ್ಯಾಸ ಸಲಹೆ",
+                "subject-label": "ವಿಷಯ:",
+                "subject-text": "ಪ್ರವಾಹ-ನಿರೋಧಕ ಮೂರು ಮಹಡಿ ನಿವಾಸಕ್ಕಾಗಿ ವಾಸ್ತುಶಿಲ್ಪ ವಿನ್ಯಾಸ ಸೇವೆಗಳ ಪ್ರಸ್ತಾವನೆ",
+                "date-label": "ದಿನಾಂಕ:",
+                "date-value": "ಆಗಸ್ಟ್ 24, 2025",
+                "greeting": "ಪ್ರಿಯ ವಾಸ್ತುಶಿಲ್ಪಿ,",
+                "intro-text": "ಈ ಪತ್ರವು ನಿಮಗೆ ಉತ್ತಮ ಸ್ಥಿತಿಯಲ್ಲಿ ಸಿಕ್ಕಿದೆ ಎಂದು ನಾನು ಭಾವಿಸುತ್ತೇನೆ. ನಾನು ಅಮಿತ್ ರಾಯ್, ಬೆಂಗಳೂರಿನಲ್ಲಿ ಇರುವ ಜೆನ್ ಎಐ ಇಂಜಿನಿಯರ್, ನನ್ನ ಸ್ಥಳೀಯ ಹಳ್ಳಿಯಲ್ಲಿ ನನ್ನ ವಸತಿ ಮನೆಯ ವಿನ್ಯಾಸಕ್ಕಾಗಿ ನಿಮ್ಮ ವೃತ್ತಿಪರ ಪರಿಣತಿಯನ್ನು ಬಯಸುವುದಕ್ಕಾಗಿ ಬರೆಯುತ್ತಿದ್ದೇನೆ.",
+                "section-1-title": "ಯೋಜನೆಯ ಅವಲೋಕನ",
+                "section-1-content": "ನಾನು ಪಶ್ಚಿಮ ಮೇದಿನೀಪುರ, ಪಶ್ಚಿಮ ಬಂಗಾಳದಲ್ಲಿ 3-ಮಹಡಿ ನಿವಾಸವನ್ನು ನಿರ್ಮಿಸಲು ಯೋಜಿಸುತ್ತಿದ್ದೇನೆ ಮತ್ತು ವಾಸ್ತುಶಿಲ್ಪ ವಿನ್ಯಾಸ ಮತ್ತು ರಚನಾತ್ಮಕ ಯೋಜನೆ ಎರಡರಲ್ಲೂ ನಿಮ್ಮ ಮಾರ್ಗದರ್ಶನವನ್ನು ಬಹಳವಾಗಿ ಪ್ರಶಂಸಿಸುತ್ತೇನೆ.",
+                "section-2-title": "ಭೂಖಂಡ ವಿವರಗಳು ಮತ್ತು ಸ್ಥಳದ ಸವಾಲುಗಳು",
+                "section-2-intro": "ಭೂಖಂಡವು ಕೆಲವು ನಿರ್ದಿಷ್ಟ ಪರಿಸರ ಮತ್ತು ಸ್ಥಳಾಕೃತಿ ಸವಾಲುಗಳನ್ನು ಹೊಂದಿದೆ ಅದಕ್ಕೆ ಎಚ್ಚರಿಕೆಯ ವಿನ್ಯಾಸ ಪರಿಗಣನೆಯ ಅಗತ್ಯವಿದೆ.",
+                "table-parameter": "ನಿಯತಾಂಕ",
+                "table-details": "ವಿವರಗಳು",
+                "plot-dimensions": "ಭೂಖಂಡದ ಆಯಾಮಗಳು",
+                "plot-dimensions-value": "32 ಅಡಿ (ಅಗಲ) * 60 ಅಡಿ (ಉದ್ದ)",
+                "plot-area": "ಒಟ್ಟು ಭೂಖಂಡ ಪ್ರದೇಶ",
+                "plot-area-value": "1,920 ಚದರ ಅಡಿ",
+                "construction-target": "ನಿರ್ಮಾಣ ಗುರಿ",
+                "construction-target-value": "ಪ್ರತಿ ಮಹಡಿಗೆ 900 - 1000 ಚದರ ಅಡಿ",
+                "road-access": "ರಸ್ತೆ ಪ್ರವೇಶ",
+                "road-access-value": "ಭೂಖಂಡವು ರಸ್ತೆಯ ಪಕ್ಕದಲ್ಲಿದೆ",
+                "elevation": "ಎತ್ತರ",
+                "elevation-value": "ಭೂಖಂಡವು ರಸ್ತೆ ಮಟ್ಟಕ್ಕಿಂತ ಸರಿಸುಮಾರು <strong>6 ಅಡಿ ಕೆಳಗೆ</strong>",
+                "water-logging": "ನೀರು ಕಟ್ಟುವಿಕೆ",
+                "water-logging-value": "ವರ್ಷಕ್ಕೆ ಸುಮಾರು 6 ತಿಂಗಳ ಕಾಲ ನೀರಿನ ಮಟ್ಟ <strong>3 ಅಡಿ</strong> ವರೆಗೆ ಪಹುಂಚುವ ಋತುಮಾನದ ನೀರು ಕಟ್ಟುವಿಕೆ",
+                "section-3-title": "ಪ್ರಸ್ತಾವಿತ ರಚನೆ",
+                "floor-structure-title": "ಮಹಡಿ-ವಾರು ರಚನೆಯ ಪರಿಕಲ್ಪನೆ",
+                "basement-title": "ಎತ್ತಿದ ನೆಲದ ಮಹಡಿ (ಪಾರ್ಕಿಂಗ್/ಸಂಗ್ರಹಣೆಗಾಗಿ ಸ್ಟಿಲ್ಟ್ ಮಟ್ಟ)",
+                "basement-purpose-label": "ಉದ್ದೇಶ:",
+                "basement-purpose-text": "ಕೇವಲ ಕಾರ್ ಪಾರ್ಕಿಂಗ್ ಮತ್ತು ಸಾಮಾನ್ಯ ಸಂಗ್ರಹಣೆಗಾಗಿ. ತೆರೆದ, ಬಳಸಬಹುದಾದ ಸ್ಥಳವನ್ನು ನಿರ್ವಹಿಸಲು ಯಾವುದೇ ಕೊಠಡಿಗಳು ಅಥವಾ ಆಂತರಿಕ ಗೋಡೆಗಳ ಅಗತ್ಯವಿಲ್ಲ",
+                "basement-elevation-label": "ಎತ್ತರ:",
+                "basement-elevation-text": "ರಸ್ತೆ ಮಟ್ಟಕ್ಕಿಂತ ಸರಿಸುಮಾರು 5 ಅಡಿ <em>ಕೆಳಗೆ</em> ಪ್ರಾರಂಭವಾಗಿ ರಸ್ತೆ ಮಟ್ಟಕ್ಕಿಂತ 2-3 ಅಡಿ <em>ಮೇಲೆ</em> ವರೆಗೆ ವಿಸ್ತರಿಸಿದೆ",
+                "basement-height-label": "ಒಟ್ಟು ಎತ್ತರ:",
+                "basement-height-text": "ಸ್ಟಿಲ್ಟ್ ಮಟ್ಟಕ್ಕಾಗಿ 7-8 ಅಡಿ ಸ್ಪಷ್ಟ ಎತ್ತರ",
+                "first-floor-title": "ಮೊದಲ ಮಹಡಿ (ವಸತಿ)",
+                "first-floor-purpose-label": "ಉದ್ದೇಶ:",
+                "first-floor-purpose-text": "ಮುಖ್ಯ ವಸತಿ ಮಹಡಿ",
+                "first-floor-elevation-label": "ಎತ್ತರ:",
+                "first-floor-elevation-text": "ರಸ್ತೆಯಿಂದ 2-3 ಅಡಿ <em>ಮೇಲೆ</em> ಮಹಡಿ ಮಟ್ಟ ಪ್ರಾರಂಭ, ನೇರವಾಗಿ ಸ್ಟಿಲ್ಟ್ ರಚನೆಯ ಮೇಲೆ ಕುಳಿತಿದೆ",
+                "first-floor-layout-label": "ವಿನ್ಯಾಸ:",
+                "first-floor-layout-text": "4-ಕೊಠಡಿ ವಸತಿ ಅಗತ್ಯತೆಯ ಭಾಗ",
+                "second-floor-title": "ಎರಡನೇ ಮಹಡಿ (ವಸತಿ)",
+                "second-floor-purpose-label": "ಉದ್ದೇಶ:",
+                "second-floor-purpose-text": "ಹೆಚ್ಚುವರಿ ವಸತಿ ಸ್ಥಳ",
+                "second-floor-layout-label": "ವಿನ್ಯಾಸ:",
+                "second-floor-layout-text": "ಒಟ್ಟು 4 ಕೊಠಡಿಗಳ ಅಗತ್ಯತೆಯ ಪೂರ್ಣಗೊಳಿಕೆ",
+                "second-floor-flexibility-label": "ನಮ್ಯತೆ:",
+                "second-floor-flexibility-text": "ಅನುಕೂಲಕರ ಸ್ಥಳ ಬಳಕೆಗಾಗಿ ಚರ್ಚೆಗೆ ತೆರೆದಿದೆ",
+                "dual-access-title": "ಮುಖ್ಯ ವೈಶಿಷ್ಟ್ಯ : ದ್ವಿ ಪ್ರವೇಶ",
+                "dual-access-point-1": "ಮನೆಯ ಒಂದು ಬದಿಯಲ್ಲಿ, ವಾಹನ ಇಳಿಜಾರು <strong>5′ ಕೆಳಗೆ</strong> ರಸ್ತೆ ಮಟ್ಟ <strong>ನೆಲಮಾಳಿಗೆ</strong>ಯನ್ನು ನೇರವಾಗಿ ರಸ್ತೆಗೆ ಸಂಪರ್ಕಿಸುತ್ತದೆ.",
+                "dual-access-point-2": "ಇನ್ನೊಂದು ಬದಿಯಲ್ಲಿ, ಪಾದಚಾರಿಗಳ ಮೆಟ್ಟಿಲುಗಳು <strong>2′ ಮೇಲೆ</strong> ರಸ್ತೆ ಮಟ್ಟ <strong>ಮೊದಲ ಮಹಡಿ</strong>ಯನ್ನು ನೇರವಾಗಿ ರಸ್ತೆಗೆ ಸಂಪರ್ಕಿಸುತ್ತದೆ.",
+                "dual-access-result-label": "ಫಲಿತಾಂಶ: ",
+                "dual-access-result-text": "<strong>ನೆಲಮಾಳಿಗೆ (ಕೆಳಗಿನ ಇಳಿಜಾರಿನ ಮೂಲಕ)</strong> ಮತ್ತು <strong>ಮೊದಲ ಮಹಡಿ (ಮೆಟ್ಟಿಲುಗಳ ಮೂಲಕ)</strong> ಎರಡೂ ನೇರ ರಸ್ತೆ ಪ್ರವೇಶವನ್ನು ಹೊಂದಿವೆ.",
+                "layout-requirements-title": "ಆಂತರಿಕ ವಿನ್ಯಾಸ ಅಗತ್ಯತೆಗಳು",
+                "layout-requirements-text": "<strong>ಮೊದಲ ಮತ್ತು ಎರಡನೇ ಮಹಡಿಗಳಲ್ಲಿ</strong>, ನನಗೆ <strong>ಅಡ್ಡ ಗಾಳಿ ಚಲನೆಯೊಂದಿಗೆ ಒಟ್ಟು 4 ಕೊಠಡಿಗಳು</strong> ಬೇಕು. ನಿಖರ ವಿತರಣೆ (ಉದಾ, ಮೊದಲ ಮಹಡಿಯಲ್ಲಿ 3, ಎರಡನೆಯಲ್ಲಿ 1, ಅಥವಾ ಪ್ರತಿಯೊಂದರಲ್ಲೂ 2) ಅತ್ಯುತ್ತಮ ವಿನ್ಯಾಸದ ಆಧಾರದ ಮೇಲೆ ಚರ್ಚೆಗೆ ತೆರೆದಿದೆ. ಇತರ ಅತ್ಯಗತ್ಯ ಸ್ಥಳಗಳು ಅಡುಗೆಮನೆ, ಕುಳಿತುಕೊಳ್ಳುವ ಪ್ರದೇಶ, ಸ್ನಾನಗೃಹಗಳು ಮತ್ತು ಪೂಜೆ ಸ್ಥಳವನ್ನು ಒಳಗೊಂಡಿರುತ್ತದೆ, ಇದನ್ನು ನಾವು ಒಟ್ಟಿಗೆ ಯೋಜಿಸಬಹುದು.",
+                "section-4-title": "ಚರ್ಚೆಯ ಕ್ಷೇತ್ರಗಳು ಮತ್ತು ನಿಮ್ಮ ಪರಿಣತಿ",
+                "section-4-intro": "ನನ್ನ ಬಳಿ ಮೂಲಭೂತ ಪರಿಕಲ್ಪನೆ ಇದ್ದರೂ, ನಾನು ನಿಮ್ಮ ವೃತ್ತಿಪರ ಅನುಭವವನ್ನು ಭಾರವಾಗಿ ಬಳಸಿಕೊಳ್ಳಲು ಬಯಸುತ್ತೇನೆ. ನಾನು ಹೊಸ ಆಲೋಚನೆಗಳಿಗೆ ತುಂಬಾ ಮುಕ್ತನಾಗಿದ್ದೇನೆ ಮತ್ತು ಅತ್ಯುತ್ತಮ ಸಂಭವ ವಿನ್ಯಾಸಕ್ಕೆ ಬರಲು ಈ ಕೆಳಗಿನ ಅಂಶಗಳನ್ನು ಚರ್ಚಿಸಲು ಇಷ್ಟಪಡುತ್ತೇನೆ:",
+                "discussion-1-title": "ರಚನಾತ್ಮಕ ಸಾಧ್ಯತೆ",
+                "discussion-1-text": "ಮಣ್ಣು ಮತ್ತು ನೀರು ಕಟ್ಟುವಿಕೆ ಪರಿಸ್ಥಿತಿಗಳನ್ನು ಪರಿಗಣಿಸಿ ಅಡಿಪಾಯ ಮತ್ತು ಸ್ಟಿಲ್ಟ್-ಫ್ಲೋರ್ ವಿನ್ಯಾಸದ ಬಗ್ಗೆ ನಿಮ್ಮ ಪರಿಣತಿ ಅಭಿಪ್ರಾಯ.",
+                "discussion-2-title": "ಆಂತರಿಕ ಸ್ಥಳ ಯೋಜನೆ",
+                "discussion-2-text": "ಪ್ರತಿ ವಸತಿ ಮಹಡಿಯ ~1000 ಚದರ ಅಡಿ ಪಾದಚಿಹ್ನೆಯಲ್ಲಿ ಹರಿವು ಮತ್ತು ಸ್ಥಳವನ್ನು ಹೇಗೆ ಅತ್ಯುತ್ತಮವಾಗಿ ಅನುಕೂಲಗೊಳಿಸುವುದು.",
+                "discussion-3-title": "ಮೇಲಿನ ಮಹಡಿ ಮತ್ತು ತೆರೆಸ್ ವಿನ್ಯಾಸ",
+                "discussion-3-text": "ಮೇಲಿನ ಮಟ್ಟಕ್ಕೆ ನೀವು ಏನನ್ನು ಶಿಫಾರಸು ಮಾಡುತ್ತೀರಿ? ಪೂರ್ಣ ಎರಡನೇ ಮಹಡಿ ನಿರ್ಮಾಣ, ಅಥವಾ ಸುಂದರವಾದ ತೆರೆದ ತೆರೆಸ್‌ನೊಂದಿಗೆ ಭಾಗಶಃ ನಿರ್ಮಾಣ?",
+                "discussion-4-title": "ಬಾಹ್ಯ ಎತ್ತರ ಮತ್ತು ಸೌಂದರ್ಯಶಾಸ್ತ್ರ",
+                "discussion-4-text": "ನನಗೆ ಕನಿಷ್ಠ ಆಧುನಿಕ ಬಾಹ್ಯ ವಿನ್ಯಾಸ ಬೇಕು. ದೃಶ್ಯಮಾನವಾಗಿ ಆಕರ್ಷಕವಾದ ಮುಖಭಾಗವನ್ನು ವಿನ್ಯಾಸ ಮಾಡಲು ನಾನು ನಿಮ್ಮ ಸೃಜನಶೀಲತೆಯ ಮೇಲೆ ಎಣಿಕೆ ಮಾಡುತ್ತಿದ್ದೇನೆ.",
+                "section-5-title": "ಮುಖ್ಯ ವಿತರಣೆಯೋಗ್ಯ ಅಗತ್ಯಗಳು",
+                "section-5-intro": "ಸೃಜನಶೀಲ ವಿನ್ಯಾಸ ಪ್ರಕ್ರಿಯೆಯ ಜೊತೆಗೆ, ಯೋಜನೆಯು ಸುಗಮವಾಗಿ ಮತ್ತು ಬಜೆಟ್‌ನೊಳಗೆ ಕಾರ್ಯಗತಗೊಳ್ಳುವುದನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಲು ನನಗೆ ಈ ಕೆಳಗಿನ ಸ್ಪಷ್ಟ ವಿತರಣೆಯೋಗ್ಯ ಅಗತ್ಯವಿದೆ:",
+                "deliverable-1-title": "ವಾಸ್ತುಶಿಲ್ಪ ಚಿತ್ರಗಳು",
+                "deliverable-1-item-1": "ಸಮಗ್ರ 2D ಮಹಡಿ ಯೋಜನೆಗಳು",
+                "deliverable-1-item-2": "ವಿಸ್ತೃತ ಎತ್ತರಗಳು",
+                "deliverable-1-item-3": "ವಿಭಾಗ ಚಿತ್ರಗಳು",
+                "deliverable-2-title": "3D ದೃಶ್ಯೀಕರಣ",
+                "deliverable-2-item-1": "ಬಾಹ್ಯದ ಫೋಟೊರಿಯಲಿಸ್ಟಿಕ್ 3D ರೆಂಡರ್‌ಗಳು",
+                "deliverable-2-item-2": "ಮುಖ್ಯ ಆಂತರಿಕ ಸ್ಥಳ ದೃಶ್ಯೀಕರಣ",
+                "deliverable-2-item-3": "ಬಹು ಕೋನ ದೃಷ್ಟಿಕೋನಗಳು",
+                "deliverable-3-title": "ವೆಚ್ಚ ಅಂದಾಜು ಮತ್ತು BOQ",
+                "deliverable-3-item-1": "ಪ್ರತಿ ಮಹಡಿ/ಭಾಗದ ವೆಚ್ಚ ಭಂಗ",
+                "deliverable-3-item-2": "ವಸ್ತು-ವಾರು ವೆಚ್ಚಗಳು",
+                "deliverable-3-item-3": "ಅಂದಾಜು ಕಾರ್ಮಿಕ ವೆಚ್ಚಗಳು",
+                "deliverable-3-item-4": "ಒಟ್ಟು ಯೋಜನೆ ವೆಚ್ಚ ಅಂದಾಜು",
+                "deliverable-4-title": "ವಸ್ತು ವಿಶೇಷಣಗಳು",
+                "deliverable-4-item-1": "ವಿಸ್ತೃತ ವಸ್ತು ಪಟ್ಟಿಗಳು",
+                "deliverable-4-item-2": "ನಿರ್ದಿಷ್ಟ ಬಣ್ಣ ಕೋಡ್‌ಗಳು",
+                "deliverable-4-item-3": "ಮುಕ್ತಾಯ ವಿಶೇಷಣಗಳು",
+                "deliverable-4-item-4": "ಬ್ರಾಂಡ್ ಶಿಫಾರಸುಗಳು",
+                "deliverable-5-title": "ತಾಂತ್ರಿಕ ಚಿತ್ರಗಳು",
+                "deliverable-5-item-1": "ರಚನಾತ್ಮಕ ಚಿತ್ರಗಳ ಸಮನ್ವಯ",
+                "deliverable-5-item-2": "ವಿದ್ಯುತ್ ವಿನ್ಯಾಸ ಯೋಜನೆಗಳು",
+                "deliverable-5-item-3": "ಪ್ಲಂಬಿಂಗ್ ವ್ಯವಸ್ಥೆ ಚಿತ್ರಗಳು",
+                "deliverable-5-item-4": "ಸೇವೆ ಏಕೀಕರಣ ವಿವರಗಳು",
+                "section-6-title": "ಮುಂದಿನ ಹಂತಗಳು",
+                "collaboration-title": "ಒಟ್ಟಿಗೆ ಸಹಯೋಗ ಮಾಡೋಣ",
+                "collaboration-text-1": "ಈ ಯೋಜನೆಯ ಬಗ್ಗೆ ಮತ್ತಷ್ಟು ಚರ್ಚಿಸುವ ಅವಕಾಶಕ್ಕಾಗಿ ನಾನು ಕೃತಜ್ಞನಾಗಿರುತ್ತೇನೆ. ಆರಂಭಿಕ ಸಲಹೆಗಾಗಿ ನಿಮ್ಮ ಲಭ್ಯತೆಯನ್ನು ದಯವಿಟ್ಟು ತಿಳಿಸಬಹುದೇ (ವರ್ಚುಯಲ್ ಅಥವಾ ನೀವು ಬೆಂಗಳೂರಿನಲ್ಲಿದ್ದರೆ ವೈಯಕ್ತಿಕವಾಗಿ)?",
+                "collaboration-text-2": "ನಿಮ್ಮ ವಿನ್ಯಾಸ ಪ್ರಕ್ರಿಯೆ, ಇದೇ ರೀತಿಯ ಯೋಜನೆಗಳ ಪೋರ್ಟ್‌ಫೋಲಿಯೊ, ಮತ್ತು ಮೇಲೆ ವಿವರಿಸಿದ ಕೆಲಸದ ವ್ಯಾಪ್ತಿಗಾಗಿ ನಿಮ್ಮ ಶುಲ್ಕ ರಚನೆಯ ಅವಲೋಕನವನ್ನು ಹಂಚಿಕೊಳ್ಳಿದರೆ ನಾನು ಪ್ರಶಂಸಿಸುತ್ತೇನೆ.",
+                "closing-text": "ನಿಮ್ಮ ಸಮಯ ಮತ್ತು ಪರಿಗಣನೆಗೆ ಧನ್ಯವಾದಗಳು. ನನ್ನ ಕನಸಿನ ಮನೆಯನ್ನು ನಿರ್ಮಿಸಲು ನಿಮ್ಮೊಂದಿಗೆ ಕೆಲಸ ಮಾಡುವ ಸಾಧ್ಯತೆಯ ಬಗ್ಗೆ ನಾನು ತುಂಬಾ ಉತ್ಸಾಹದಿಂದಿದ್ದೇನೆ.",
+                "signature-regards": "ಶುಭಾಶಯಗಳೊಂದಿಗೆ,",
+                "signature-name": "ಅಮಿತ್ ರಾಯ್",
+                "contact-title": "ಸಂಪರ್ಕ ಮಾಹಿತಿ",
+                "contact-phone": "ದೂರವಾಣಿ",
+                "contact-email": "ಇಮೇಲ್",
+                "contact-current-location": "ಪ್ರಸ್ತುತ ಸ್ಥಳ",
+                "contact-project-site": "ಯೋಜನೆಯ ಸ್ಥಳ",
+                "print-button": "ಪ್ರಸ್ತಾವನೆ ಮುದ್ರಿಸಿ"
+            }
+        };
+
+        // Current language
+        let currentLanguage = 'en';
+        const languages = {
+            'en': 'EN',
+            'bn': 'বাং',
+            'hi': 'हिं',
+            'kn': 'ಕನ್'
+        };
+
+        // Function to translate the page
+        function translatePage(lang) {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    element.innerHTML = translations[lang][key];
+                }
+            });
+            
+            // Update document title
+            if (translations[lang] && translations[lang]['page-title']) {
+                document.title = translations[lang]['page-title'];
+            }
+            
+            // Update body class for language-specific fonts
+            document.body.className = document.body.className.replace(/lang-\w+/g, '');
+            document.body.classList.add(`lang-${lang}`);
+            
+            // Update HTML lang attribute
+            // Use document.documentElement to reference the <html> element
+            document.documentElement.setAttribute('lang',
+                lang === 'bn' ? 'bn' : lang === 'hi' ? 'hi' : lang === 'kn' ? 'kn' : 'en'
+            );
+        }
+
+        // Get references to the buttons
         const themeToggle = document.getElementById('theme-toggle');
+        const languageMenu = document.getElementById('language-menu');
+        const languageButtons = document.querySelectorAll('.lang-option');
         const themeIcon = document.getElementById('theme-icon');
         const body = document.body;
 
-        // Check for saved theme preference on page load
+        // Check for saved preferences on page load
         const savedTheme = localStorage.getItem('theme');
-        if (savedTheme) {
-            body.classList.add(savedTheme);
-            if (savedTheme === 'dark-theme') {
-                themeIcon.textContent = '☀️';
-            }
+        if (savedTheme === 'dark-theme') {
+            body.classList.add('dark-theme');
+            themeIcon.textContent = '☀️';
         }
 
-        // Add a click listener to the theme button
+        const savedLanguage = localStorage.getItem('language') || 'en';
+
+        function setLanguage(lang) {
+            const langKeys = Object.keys(languages);
+            const target = langKeys.includes(lang) ? lang : 'en';
+            currentLanguage = target;
+            translatePage(currentLanguage);
+            localStorage.setItem('language', currentLanguage);
+            // Update active state in UI
+            languageButtons.forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === currentLanguage);
+            });
+        }
+
+        // Initialize language on load
+        setLanguage(savedLanguage);
+
+        // Theme toggle functionality
         themeToggle.addEventListener('click', () => {
-            // Check if the body currently has the dark theme class
             if (body.classList.contains('dark-theme')) {
-                // If it does, remove it to switch to light theme
                 body.classList.remove('dark-theme');
                 themeIcon.textContent = '🌙';
                 localStorage.setItem('theme', 'light-theme');
             } else {
-                // If it doesn't, add it to switch to dark theme
                 body.classList.add('dark-theme');
                 themeIcon.textContent = '☀️';
                 localStorage.setItem('theme', 'dark-theme');
             }
         });
 
+        // Language picker functionality
+        if (languageMenu && languageButtons.length) {
+            languageButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const lang = btn.getAttribute('data-lang');
+                    setLanguage(lang);
+                });
+            });
+        }
+
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
     </script>
 </body>
-</html>
